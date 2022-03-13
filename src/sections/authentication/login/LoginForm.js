@@ -15,6 +15,9 @@ import {
 import { LoadingButton } from '@mui/lab';
 // component
 import Iconify from '../../../components/Iconify';
+// firebase
+import { auth } from '../../../firebase';
+import { signInWithEmailAndPassword } from 'firebase/auth';
 
 // ----------------------------------------------------------------------
 
@@ -34,7 +37,15 @@ export default function LoginForm() {
       remember: true
     },
     validationSchema: LoginSchema,
-    onSubmit: () => {
+    onSubmit: (values) => {
+      signInWithEmailAndPassword(auth, values.email, values.password)
+        .then((data) => {
+          console.log('Login Success!!');
+          console.log(data.user);
+        })
+        .catch((errors) => {
+          console.error(errors);
+        });
       navigate('/dashboard', { replace: true });
     }
   });

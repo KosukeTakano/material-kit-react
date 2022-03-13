@@ -7,6 +7,9 @@ import { Stack, TextField, IconButton, InputAdornment } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
 // component
 import Iconify from '../../../components/Iconify';
+// firebase
+import { auth } from '../../../firebase';
+import { createUserWithEmailAndPassword } from 'firebase/auth';
 
 // ----------------------------------------------------------------------
 
@@ -32,7 +35,8 @@ export default function RegisterForm() {
       password: ''
     },
     validationSchema: RegisterSchema,
-    onSubmit: () => {
+    onSubmit: (values) => {
+      createUserWithEmailAndPassword(auth, values.email, values.password); //firebaseへの会員登録
       navigate('/dashboard', { replace: true });
     }
   });
