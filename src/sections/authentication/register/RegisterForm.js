@@ -9,7 +9,7 @@ import { LoadingButton } from '@mui/lab';
 import Iconify from '../../../components/Iconify';
 // firebase
 import { auth } from '../../../firebase';
-import { createUserWithEmailAndPassword } from 'firebase/auth';
+import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
 
 // ----------------------------------------------------------------------
 
@@ -36,7 +36,17 @@ export default function RegisterForm() {
     },
     validationSchema: RegisterSchema,
     onSubmit: (values) => {
-      createUserWithEmailAndPassword(auth, values.email, values.password); //firebaseへの会員登録
+      //firebaseへの登録
+      createUserWithEmailAndPassword(auth, values.email, values.password)
+        .then((UserCredential) => {
+          //その他情報の登録
+          updateProfile(UserCredential.user, {
+            displayName: values.firstName + ' ' + values.lastName
+          });
+        })
+        .catch((error) => {
+          console.log(error);
+        });
       navigate('/dashboard', { replace: true });
     }
   });

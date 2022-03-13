@@ -1,8 +1,11 @@
 // ----------------------------------------------------------------------
+import { auth } from '../firebase';
+
+const user = auth.currentUser;
 
 const account = {
-  displayName: 'Jaydon Frankie',
-  email: 'demo@minimals.cc',
+  displayName: user.displayName,
+  email: user.email,
   photoURL: '/static/mock-images/avatars/avatar_default.jpg'
 };
 
